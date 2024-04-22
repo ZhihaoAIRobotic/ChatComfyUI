@@ -1,0 +1,196 @@
+{
+        "10": {
+            "inputs": {
+                "video": "AnimateDiff_00001.mp4",
+                "force_rate": 0,
+                "force_size": "Custom",
+                "custom_width": 512,
+                "custom_height": 768,
+                "frame_load_cap": 60,
+                "skip_first_frames": 0,
+                "select_every_nth": 1
+            },
+            "class_type": "VHS_LoadVideo"
+        },
+        "14": {
+            "inputs": {
+                "samples": [
+                    "198",
+                    0
+                ],
+                "vae": [
+                    "202",
+                    0
+                ]
+            },
+            "class_type": "VAEDecode"
+        },
+        "16": {
+            "inputs": {
+                "frame_rate": 60,
+                "loop_count": 0,
+                "filename_prefix": "AnimateAnyone",
+                "format": "video/h264-mp4",
+                "pix_fmt": "yuv420p10le",
+                "crf": 1,
+                "save_metadata": true,
+                "pingpong": false,
+                "save_output": true,
+                "images": [
+                    "14",
+                    0
+                ]
+            },
+            "class_type": "VHS_VideoCombine"
+        },
+        "198": {
+            "inputs": {
+                "seed": 999999999,
+                "steps": 22,
+                "cfg": 3.5,
+                "delta": 1,
+                "context_frames": 24,
+                "context_stride": 1,
+                "context_overlap": 4,
+                "context_batch_size": 1,
+                "interpolation_factor": 1,
+                "sampler_scheduler_pairs": "DDIM",
+                "beta_start": 0.00085,
+                "beta_end": 0.012,
+                "beta_schedule": "linear",
+                "prediction_type": "v_prediction",
+                "timestep_spacing": "trailing",
+                "steps_offset": 1,
+                "clip_sample": false,
+                "rescale_betas_zero_snr": true,
+                "use_lora": false,
+                "lora_name": null,
+                "reference_unet": [
+                    "199",
+                    0
+                ],
+                "denoising_unet": [
+                    "200",
+                    0
+                ],
+                "ref_image_latent": [
+                    "201",
+                    0
+                ],
+                "clip_image_embeds": [
+                    "204",
+                    0
+                ],
+                "pose_latent": [
+                    "206",
+                    0
+                ]
+            },
+            "class_type": "[AnimateAnyone] Animate Anyone Sampler"
+        },
+        "199": {
+            "inputs": {
+                "pretrained_base_unet_folder_path": "./pretrained_weights/stable-diffusion-v1-5/unet/",
+                "unet2d_model_path": "./pretrained_weights/reference_unet.pth"
+            },
+            "class_type": "[AnimateAnyone] Load UNet2D ConditionModel"
+        },
+        "200": {
+            "inputs": {
+                "pretrained_base_unet_folder_path": "./pretrained_weights/stable-diffusion-v1-5/unet/",
+                "unet3d_model_path": "./pretrained_weights/denoising_unet.pth",
+                "motion_module_path": "./pretrained_weights/motion_module.pth"
+            },
+            "class_type": "[AnimateAnyone] Load UNet3D ConditionModel"
+        },
+        "201": {
+            "inputs": {
+                "pixels": [
+                    "203",
+                    0
+                ],
+                "vae": [
+                    "202",
+                    0
+                ]
+            },
+            "class_type": "VAEEncode"
+        },
+        "202": {
+            "inputs": {
+                "vae_name": "sd-vae-ft-mse.bin"
+            },
+            "class_type": "VAELoader"
+        },
+        "203": {
+            "inputs": {
+                "upscale_method": "bilinear",
+                "width": 512,
+                "height": 768,
+                "crop": "disabled",
+                "image": [
+                    "218",
+                    0
+                ]
+            },
+            "class_type": "ImageScale"
+        },
+        "204": {
+            "inputs": {
+                "clip_vision": [
+                    "205",
+                    0
+                ],
+                "image": [
+                    "203",
+                    0
+                ]
+            },
+            "class_type": "CLIPVisionEncode"
+        },
+        "205": {
+            "inputs": {
+                "clip_name": "sd-image-variations-diffusers.bin"
+            },
+            "class_type": "CLIPVisionLoader"
+        },
+        "206": {
+            "inputs": {
+                "pose_guider": [
+                    "207",
+                    0
+                ],
+                "pose_images": [
+                    "208",
+                    0
+                ]
+            },
+            "class_type": "[AnimateAnyone] Pose Guider Encode"
+        },
+        "207": {
+            "inputs": {
+                "pose_guider_model_path": "./pretrained_weights/pose_guider.pth"
+            },
+            "class_type": "[AnimateAnyone] Load Pose Guider"
+        },
+        "208": {
+            "inputs": {
+                "upscale_method": "nearest-exact",
+                "width": 512,
+                "height": 768,
+                "crop": "disabled",
+                "image": [
+                    "10",
+                    0
+                ]
+            },
+            "class_type": "ImageScale"
+        },
+        "218": {
+            "inputs": {
+                "image": "testpose (6).jpeg",
+                "upload": "image"
+            },
+            "class_type": "LoadImage"
+        }
+    }
