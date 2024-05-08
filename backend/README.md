@@ -1,25 +1,15 @@
 ## HOW TO RUN SERVER
 
-1. make model dir
+1. run ComfyUI server at http://127.0.0.1:8188/
 
-   ```
-   mkdir model
-   ```
+2. download the models according to the workflow and put them in ComfyUI/model folder
 
-2. download diffussion model
+3. edit the config/config.yml file according to the absolute path to the ComfyUI/input folder and absolute path to the ComfyUI/output folder
 
-   ```
-   cd model
-   wget https://civitai.com/api/download/models/393286
-   mv 393286 Ath_stuffed-toy_XL.safetensors
-   wget https://civitai.com/api/download/models/126601
-   mv 126601 sdXL_v10.safetensors
-   ```
-
-3. run the server
+4. run the server
 
    ```
    uvicorn main:app --reload
    ```
 
-   you can access the server via **http://127.0.0.1:8000** 
+you can access the server via http://127.0.0.1:8000/
