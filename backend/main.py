@@ -39,8 +39,8 @@ def text2video(prompt, negative_prompt):
     with open('workflow/workflow_text2video_api.json', 'r') as file:
         graph = json.loads(file.read())
     comfy_graph = ComfyGraphText2video(graph=graph)
-    comfy_graph.set_prompt(prompt='A boat sailing leisurely along the Seine River with the Eiffel Tower in background by Vincent van Gogh, blue sky',
-                           negative_prompt='text, watermark', text_prompt_nodes=['17'])
+    comfy_graph.set_prompt(prompt=prompt,
+                           negative_prompt=negative_prompt, text_prompt_nodes=['17'])
     out_put = client.get_video_webp(comfy_graph.graph)
     return {"url": out_put}
 
