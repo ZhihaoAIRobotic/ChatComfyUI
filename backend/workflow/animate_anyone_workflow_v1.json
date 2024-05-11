@@ -1,0 +1,1225 @@
+{
+  "last_node_id": 226,
+  "last_link_id": 360,
+  "nodes": [
+    {
+      "id": 199,
+      "type": "[AnimateAnyone] Load UNet2D ConditionModel",
+      "pos": [
+        1228.0804970678928,
+        187.0802191700882
+      ],
+      "size": {
+        "0": 414.66644287109375,
+        "1": 82
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "unet2d",
+          "type": "UNET2D",
+          "links": [
+            307
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "[AnimateAnyone] Load UNet2D ConditionModel"
+      },
+      "widgets_values": [
+        "./pretrained_weights/stable-diffusion-v1-5/unet/",
+        "./pretrained_weights/reference_unet.pth"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 200,
+      "type": "[AnimateAnyone] Load UNet3D ConditionModel",
+      "pos": [
+        1238.0804970678928,
+        327.08021917008784
+      ],
+      "size": {
+        "0": 406.7662658691406,
+        "1": 106
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "unet3d",
+          "type": "UNET3D",
+          "links": [
+            308
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "[AnimateAnyone] Load UNet3D ConditionModel"
+      },
+      "widgets_values": [
+        "./pretrained_weights/stable-diffusion-v1-5/unet/",
+        "./pretrained_weights/denoising_unet.pth",
+        "./pretrained_weights/motion_module.pth"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 204,
+      "type": "CLIPVisionEncode",
+      "pos": [
+        1258.0804970678928,
+        577.0802191700902
+      ],
+      "size": {
+        "0": 380.4000244140625,
+        "1": 46
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip_vision",
+          "type": "CLIP_VISION",
+          "link": 314,
+          "slot_index": 0
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 317
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CLIP_VISION_OUTPUT",
+          "type": "CLIP_VISION_OUTPUT",
+          "links": [
+            313
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPVisionEncode"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 205,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        788.0804970678962,
+        327.08021917008784
+      ],
+      "size": {
+        "0": 389.4097900390625,
+        "1": 58
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            314
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPVisionLoader"
+      },
+      "widgets_values": [
+        "sd-image-variations-diffusers.bin"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 206,
+      "type": "[AnimateAnyone] Pose Guider Encode",
+      "pos": [
+        1338.0804970678928,
+        687.0802191700905
+      ],
+      "size": {
+        "0": 292.20001220703125,
+        "1": 46
+      },
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pose_guider",
+          "type": "POSE_GUIDER",
+          "link": 316,
+          "slot_index": 0
+        },
+        {
+          "name": "pose_images",
+          "type": "IMAGE",
+          "link": 318,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "pose_latent",
+          "type": "POSE_LATENT",
+          "links": [
+            315
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "[AnimateAnyone] Pose Guider Encode"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 14,
+      "type": "VAEDecode",
+      "pos": [
+        2098.0804970678814,
+        297.08021917008807
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 323
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 324
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            327
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 201,
+      "type": "VAEEncode",
+      "pos": [
+        1438.0804970678928,
+        487.0802191700886
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 312
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 310,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            309
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 202,
+      "type": "VAELoader",
+      "pos": [
+        858.0804970678962,
+        207.08021917008827
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            310,
+            324
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "sd-vae-ft-mse.bin"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 207,
+      "type": "[AnimateAnyone] Load Pose Guider",
+      "pos": [
+        836,
+        767.0401077270508
+      ],
+      "size": {
+        "0": 371.9739685058594,
+        "1": 59.59769821166992
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "pose_guider",
+          "type": "POSE_GUIDER",
+          "links": [
+            316
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "[AnimateAnyone] Load Pose Guider"
+      },
+      "widgets_values": [
+        "./pretrained_weights/pose_guider.pth"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 198,
+      "type": "[AnimateAnyone] Animate Anyone Sampler",
+      "pos": [
+        1718.0804970678928,
+        207.08021917008827
+      ],
+      "size": {
+        "0": 315,
+        "1": 618
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "reference_unet",
+          "type": "UNET2D",
+          "link": 307,
+          "slot_index": 0
+        },
+        {
+          "name": "denoising_unet",
+          "type": "UNET3D",
+          "link": 308,
+          "slot_index": 1
+        },
+        {
+          "name": "ref_image_latent",
+          "type": "LATENT",
+          "link": 309,
+          "slot_index": 2
+        },
+        {
+          "name": "clip_image_embeds",
+          "type": "CLIP_VISION_OUTPUT",
+          "link": 313,
+          "slot_index": 3
+        },
+        {
+          "name": "pose_latent",
+          "type": "POSE_LATENT",
+          "link": 315,
+          "slot_index": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            323
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "[AnimateAnyone] Animate Anyone Sampler"
+      },
+      "widgets_values": [
+        999999999,
+        "fixed",
+        22,
+        3.5,
+        1,
+        24,
+        1,
+        4,
+        1,
+        1,
+        "DDIM",
+        0.00085,
+        0.012,
+        "linear",
+        "v_prediction",
+        "trailing",
+        1,
+        false,
+        true,
+        false,
+        null
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 208,
+      "type": "ImageScale",
+      "pos": [
+        444,
+        579.0401077270508
+      ],
+      "size": {
+        "0": 315,
+        "1": 130
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 319
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            318
+          ],
+          "shape": 3
+        }
+      ],
+      "title": "Motion Images",
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "nearest-exact",
+        512,
+        768,
+        "disabled"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 203,
+      "type": "ImageScale",
+      "pos": [
+        401,
+        191.04010772705078
+      ],
+      "size": {
+        "0": 315,
+        "1": 130
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 355,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            312,
+            317
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Still Image",
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "bilinear",
+        512,
+        768,
+        "disabled"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 50,
+      "type": "RIFE VFI",
+      "pos": [
+        2492,
+        207
+      ],
+      "size": {
+        "0": 443.4000244140625,
+        "1": 222
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "frames",
+          "type": "IMAGE",
+          "link": 327
+        },
+        {
+          "name": "optional_interpolation_states",
+          "type": "INTERPOLATION_STATES",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            356
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RIFE VFI"
+      },
+      "widgets_values": [
+        "rife49.pth",
+        10,
+        2,
+        true,
+        true,
+        1
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 218,
+      "type": "LoadImage",
+      "pos": [
+        -212,
+        51
+      ],
+      "size": {
+        "0": 315,
+        "1": 314
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            355,
+            357
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "lOUnXHNV1678417180 (4).png",
+        "image"
+      ]
+    },
+    {
+      "id": 222,
+      "type": "ReActorFaceSwap",
+      "pos": [
+        2466,
+        772
+      ],
+      "size": {
+        "0": 315,
+        "1": 338
+      },
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input_image",
+          "type": "IMAGE",
+          "link": 356
+        },
+        {
+          "name": "source_image",
+          "type": "IMAGE",
+          "link": 357
+        },
+        {
+          "name": "face_model",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            358,
+            359
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReActorFaceSwap"
+      },
+      "widgets_values": [
+        true,
+        "inswapper_128.onnx",
+        "retinaface_resnet50",
+        "none",
+        1,
+        0.5,
+        "no",
+        "no",
+        "0",
+        "0",
+        1
+      ]
+    },
+    {
+      "id": 16,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        3242,
+        -99
+      ],
+      "size": [
+        427.31707763671875,
+        914.9756164550781
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 358
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": null
+        },
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "slot_index": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 60,
+        "loop_count": 0,
+        "filename_prefix": "AnimateAnyone",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p10le",
+        "crf": 1,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "AnimateAnyone_00019.mp4",
+            "subfolder": "",
+            "type": "output",
+            "format": "video/h264-mp4"
+          }
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 223,
+      "type": "VAEEncodeForInpaint",
+      "pos": [
+        2909,
+        1001
+      ],
+      "size": {
+        "0": 315,
+        "1": 98
+      },
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 359
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": null,
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncodeForInpaint"
+      },
+      "widgets_values": [
+        6
+      ]
+    },
+    {
+      "id": 226,
+      "type": "ControlNetLoader",
+      "pos": [
+        2842,
+        1294
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            360
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "control_sd15_inpaint_depth_hand_fp16.safetensors"
+      ]
+    },
+    {
+      "id": 225,
+      "type": "ACN_AdvancedControlNetApply",
+      "pos": [
+        3324,
+        1036
+      ],
+      "size": {
+        "0": 355.20001220703125,
+        "1": 266
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 360,
+          "slot_index": 2
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "mask_optional",
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "timestep_kf",
+          "type": "TIMESTEP_KEYFRAME",
+          "link": null
+        },
+        {
+          "name": "latent_kf_override",
+          "type": "LATENT_KEYFRAME",
+          "link": null
+        },
+        {
+          "name": "weights_override",
+          "type": "CONTROL_NET_WEIGHTS",
+          "link": null
+        },
+        {
+          "name": "model_optional",
+          "type": "MODEL",
+          "link": null,
+          "slot_index": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "model_opt",
+          "type": "MODEL",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ACN_AdvancedControlNetApply"
+      },
+      "widgets_values": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 10,
+      "type": "VHS_LoadVideo",
+      "pos": [
+        -392,
+        479
+      ],
+      "size": [
+        302.61431884765625,
+        826.302793264389
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            319
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": null,
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "video_info",
+          "type": "VHS_VIDEOINFO",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_LoadVideo"
+      },
+      "widgets_values": {
+        "video": "AnimateDiff_00004.mp4",
+        "force_rate": 0,
+        "force_size": "Custom",
+        "custom_width": 512,
+        "custom_height": 768,
+        "frame_load_cap": 60,
+        "skip_first_frames": 0,
+        "select_every_nth": 1,
+        "choose video to upload": "image",
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "frame_load_cap": 60,
+            "skip_first_frames": 0,
+            "force_rate": 0,
+            "filename": "AnimateDiff_00004.mp4",
+            "type": "input",
+            "format": "video/mp4",
+            "select_every_nth": 1,
+            "force_size": "512x768"
+          }
+        }
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      307,
+      199,
+      0,
+      198,
+      0,
+      "UNET2D"
+    ],
+    [
+      308,
+      200,
+      0,
+      198,
+      1,
+      "UNET3D"
+    ],
+    [
+      309,
+      201,
+      0,
+      198,
+      2,
+      "LATENT"
+    ],
+    [
+      310,
+      202,
+      0,
+      201,
+      1,
+      "VAE"
+    ],
+    [
+      312,
+      203,
+      0,
+      201,
+      0,
+      "IMAGE"
+    ],
+    [
+      313,
+      204,
+      0,
+      198,
+      3,
+      "CLIP_VISION_OUTPUT"
+    ],
+    [
+      314,
+      205,
+      0,
+      204,
+      0,
+      "CLIP_VISION"
+    ],
+    [
+      315,
+      206,
+      0,
+      198,
+      4,
+      "POSE_LATENT"
+    ],
+    [
+      316,
+      207,
+      0,
+      206,
+      0,
+      "POSE_GUIDER"
+    ],
+    [
+      317,
+      203,
+      0,
+      204,
+      1,
+      "IMAGE"
+    ],
+    [
+      318,
+      208,
+      0,
+      206,
+      1,
+      "IMAGE"
+    ],
+    [
+      319,
+      10,
+      0,
+      208,
+      0,
+      "IMAGE"
+    ],
+    [
+      323,
+      198,
+      0,
+      14,
+      0,
+      "LATENT"
+    ],
+    [
+      324,
+      202,
+      0,
+      14,
+      1,
+      "VAE"
+    ],
+    [
+      327,
+      14,
+      0,
+      50,
+      0,
+      "IMAGE"
+    ],
+    [
+      355,
+      218,
+      0,
+      203,
+      0,
+      "IMAGE"
+    ],
+    [
+      356,
+      50,
+      0,
+      222,
+      0,
+      "IMAGE"
+    ],
+    [
+      357,
+      218,
+      0,
+      222,
+      1,
+      "IMAGE"
+    ],
+    [
+      358,
+      222,
+      0,
+      16,
+      0,
+      "IMAGE"
+    ],
+    [
+      359,
+      222,
+      0,
+      223,
+      0,
+      "IMAGE"
+    ],
+    [
+      360,
+      226,
+      0,
+      225,
+      2,
+      "CONTROL_NET"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Animate Anyone",
+      "bounding": [
+        391,
+        113,
+        1927,
+        724
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    },
+    {
+      "title": "Interpolation",
+      "bounding": [
+        2391,
+        95,
+        652,
+        412
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    },
+    {
+      "title": "Output",
+      "bounding": [
+        3081,
+        -132,
+        980,
+        1059
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    },
+    {
+      "title": "Image & Motion Reference",
+      "bounding": [
+        -418,
+        95,
+        751,
+        823
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "locked": false
+    }
+  ],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
