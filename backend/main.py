@@ -1,6 +1,7 @@
 import base64
 from typing import Union
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from comfy_client import ComfyClient
 from comfyui_graph.comfy_graph import *
 from utils.utils import load_config
@@ -10,6 +11,21 @@ config = load_config('config/config.yml')
 path_to_ComfyUI_output = config['path_to_ComfyUI_output']
 path_to_ComfyUI_input = config['path_to_ComfyUI_input']
 app = FastAPI()
+
+# 允许所有来源访问
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 client = ComfyClient(input_dir=path_to_ComfyUI_input, output_dir=path_to_ComfyUI_output)
 
 @app.get("/text2img/")

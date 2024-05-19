@@ -1,8 +1,9 @@
 import Messages from "components/messages";
 import PromptForm from "components/prompt-form";
+import PromptVideoForm from "components/prompt_video-form";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-
+// import ReactPlayer from "react-player";
 import Footer from "components/footer";
 
 import prepareImageFileForUpload from "lib/prepare-image-file-for-upload";
@@ -22,9 +23,10 @@ export default function Home() {
   const [seed] = useState(getRandomSeed());
   const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
 
-  // set the initial image from a ra ndom seed
+  console.log("Hello World!");
+  // set the initial image from a random seed
   useEffect(() => {
-    setEvents([{ image: seed.image }]);
+    setEvents([{ image: seed.image}]);
   }, [seed.image]);
 
   const handleImageDropped = async (image) => {
@@ -56,43 +58,52 @@ export default function Home() {
       image: lastImage,
     };
 
-    const response = await fetch("/api/predictions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
+    const response = await fetch("/api/fastapi", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
     let prediction = await response.json();
 
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      return;
-    }
+    // if (response.status !== 201) {
+    //   setError(prediction.detail);
+    //   return;
+    // }
 
-    while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
-    ) {
-      await sleep(500);
-      const response = await fetch("/api/predictions/" + prediction.id);
-      prediction = await response.json();
-      if (response.status !== 200) {
-        setError(prediction.detail);
-        return;
-      }
+    // just for bookkeeping
+    setPredictions(predictions.concat([prediction]));
 
-      // just for bookkeeping
-      setPredictions(predictions.concat([prediction]));
+    setEvents(
+      myEvents.concat([
+        { image: prediction.output?.[prediction.output.length - 1] },
+      ])
+    );
 
-      if (prediction.status === "succeeded") {
-        setEvents(
-          myEvents.concat([
-            { image: prediction.output?.[prediction.output.length - 1] },
-          ])
-        );
-      }
-    }
+    // while (
+    //   prediction.status !== "succeeded" &&
+    //   prediction.status !== "failed"
+    // ) {
+    //   await sleep(500);
+    //   const response = await fetch("/api/fastapi/" + prediction.id);
+    //   prediction = await response.json();
+    //   if (response.status !== 200) {
+    //     setError(prediction.detail);
+    //     return;
+    //   }
+
+      // // // just for bookkeeping
+      // setPredictions(predictions.concat([prediction]));
+
+      // if (prediction.status === "succeeded") {
+        // setEvents(
+        //   myEvents.concat([
+        //     { image: prediction.output?.[prediction.output.length - 1] },
+        //   ])
+        // );
+    //   }
+    // }
 
     setIsProcessing(false);
   };
@@ -114,7 +125,8 @@ export default function Home() {
         <meta property="og:description" content={appMetaDescription} />
         <meta property="og:image" content="https://paintbytext.chat/opengraph.jpg" />
       </Head>
-
+      
+      
       <main className="container max-w-[700px] mx-auto p-5">
         <hgroup>
           <h1 className="text-center text-5xl font-bold m-6">{appName}</h1>
@@ -135,6 +147,7 @@ export default function Home() {
         />
 
         <PromptForm
+          // src={'https://s31.aconvert.com/convert/p3r68-cdx67/mh9iw-s0h0v.mp4'}
           initialPrompt={initialPrompt}
           isFirstPrompt={events.length === 1}
           onSubmit={handleSubmit}
