@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 // 定义后端API的URL
 const apiUrl = 'http://localhost:3001/text2img';
 
