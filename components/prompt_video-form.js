@@ -34,8 +34,8 @@ export default function PromptVideoForm({
       <Message sender="replicate" isSameSender>
         <label htmlFor="prompt-input">
           {isFirstPrompt
-            ? "What should we change?"
-            : "What should we change now?"}
+            ? "What should we draw?"
+            : "What should we draw now?"}
         </label>
       </Message>
 

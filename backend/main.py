@@ -6,6 +6,7 @@ from comfy_client import ComfyClient
 from comfyui_graph.comfy_graph import *
 from utils.utils import load_config
 import json
+from fastapi.responses import RedirectResponse
 
 config = load_config('config/config.yml')
 path_to_ComfyUI_output = config['path_to_ComfyUI_output']
@@ -16,8 +17,8 @@ app = FastAPI()
 
 origins = [
     "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:3001",
+    "http://localhost:8000",
+    "http://localhost:8001",
 ]
 
 app.add_middleware(
@@ -30,13 +31,14 @@ app.add_middleware(
 client = ComfyClient(input_dir=path_to_ComfyUI_input, output_dir=path_to_ComfyUI_output)
 
 @app.get("/text2img/")
-def text2img(prompt, negative_prompt):
+async def text2img(prompt):
+    negative_prompt = "bad quality"
     with open('workflow/workflow_text2img_api.json', 'r') as file:
         graph = json.loads(file.read())
     comfy_graph = ComfyGraphText2img(graph=graph)
     comfy_graph.set_prompt(prompt=prompt, negative_prompt=negative_prompt, text_prompt_nodes=['3'])
     output = client.get_images(graph=comfy_graph.graph)
-    return {"url": output}
+    return {"output": output}
 
 @app.get("/img2img/")
 def img2img(prompt, negative_prompt, image_name, image):
@@ -49,7 +51,7 @@ def img2img(prompt, negative_prompt, image_name, image):
     comfy_graph.set_prompt(prompt=prompt, negative_prompt=negative_prompt,
                            text_prompt_nodes=['3'], image_path=image_name, image_prompt_nodes=['12'])
     output = client.get_images(graph=comfy_graph.graph)
-    return {"url": output}
+    return {"output": output}
 
 @app.get("/text2video")
 def text2video(prompt, negative_prompt):
@@ -59,6 +61,6 @@ def text2video(prompt, negative_prompt):
     comfy_graph.set_prompt(prompt=prompt,
                            negative_prompt=negative_prompt, text_prompt_nodes=['17'])
     out_put = client.get_video_webp(comfy_graph.graph)
-    return {"url": out_put}
+    return {"output": out_put}
 
 

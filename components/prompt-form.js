@@ -28,8 +28,8 @@ export default function PromptForm({
       <Message sender="replicate" isSameSender>
         <label htmlFor="prompt-input">
           {isFirstPrompt
-            ? "What should we change?"
-            : "What should we change now?"}
+            ? "What should we draw?"
+            : "What should we s now?"}
         </label>
       </Message>
 

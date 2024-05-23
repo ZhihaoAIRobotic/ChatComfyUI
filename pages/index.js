@@ -24,7 +24,6 @@ export default function Home() {
   const [seed] = useState(getRandomSeed());
   const [initialPrompt, setInitialPrompt] = useState(seed.prompt);
 
-  console.log("Hello World!");
   // set the initial image from a random seed
   useEffect(() => {
     setEvents([{ image: seed.image}]);
@@ -56,10 +55,10 @@ export default function Home() {
 
     const body = {
       prompt,
-      image: lastImage,
+      negative_prompt: 'bad quality',
     };
 
-    const response = await fetch("/api/fastapi", {
+    const response = await fetch("/api/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -68,43 +67,13 @@ export default function Home() {
   });
     let prediction = await response.json();
 
-    // if (response.status !== 201) {
-    //   setError(prediction.detail);
-    //   return;
-    // }
-
     // just for bookkeeping
     setPredictions(predictions.concat([prediction]));
-
     setEvents(
       myEvents.concat([
         { image: prediction.output?.[prediction.output.length - 1] },
       ])
     );
-
-    // while (
-    //   prediction.status !== "succeeded" &&
-    //   prediction.status !== "failed"
-    // ) {
-    //   await sleep(500);
-    //   const response = await fetch("/api/fastapi/" + prediction.id);
-    //   prediction = await response.json();
-    //   if (response.status !== 200) {
-    //     setError(prediction.detail);
-    //     return;
-    //   }
-
-      // // // just for bookkeeping
-      // setPredictions(predictions.concat([prediction]));
-
-      // if (prediction.status === "succeeded") {
-        // setEvents(
-        //   myEvents.concat([
-        //     { image: prediction.output?.[prediction.output.length - 1] },
-        //   ])
-        // );
-    //   }
-    // }
 
     setIsProcessing(false);
   };

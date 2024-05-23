@@ -69,7 +69,7 @@ class ComfyClient:
             prompt_str = json.dumps(prompt)
             prompt_str = prompt_str.replace('SaveImage', 'PreviewImage')
             prompt = json.loads(prompt_str)
-
+        print('start queue prompt')
         prompt_id = self.queue_prompt(prompt)['prompt_id']
         output_images = {}
         while True:
