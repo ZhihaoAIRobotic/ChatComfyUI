@@ -13,6 +13,7 @@ path_to_ComfyUI_input = config['path_to_ComfyUI_input']
 app = FastAPI()
 
 # 允许所有来源访问
+
 origins = [
     "http://localhost",
     "http://localhost:3000",
