@@ -29,7 +29,7 @@ export default function PromptForm({
         <label htmlFor="prompt-input">
           {isFirstPrompt
             ? "What should we draw?"
-            : "What should we s now?"}
+            : "What should we draw now?"}
         </label>
       </Message>
 

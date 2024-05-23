@@ -12,9 +12,9 @@ import { getRandomSeed } from "lib/seeds";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-export const appName = "MetaAgent";
-export const appSubtitle = "Generate your own artwork, with the help of MetaAgent.";
-export const appMetaDescription = "Generate your own artwork, with the help of MetaAgent.";
+export const appName = "ChatComfyUI";
+export const appSubtitle = "Generate your own artwork, with the help of ChatComfyUI.";
+export const appMetaDescription = "Generate your own artwork, with the help of ChatComfyUI.";
 
 export default function Home() {
   const [events, setEvents] = useState([]);
