@@ -1,0 +1,7 @@
+
+.rounded-box {
+    border: 1px solid #ccc; /* 设置边框样式 */
+    border-radius: 10px; /* 设置圆角半径 */
+    padding: 20px; /* 设置内边距 */
+    background-color: #747474; /* 设置背景颜色 */
+  }
