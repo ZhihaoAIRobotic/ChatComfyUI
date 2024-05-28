@@ -4,7 +4,6 @@ import axios from 'axios';
 // 定义后端API的URL
 const apiUrl = 'http://localhost:8001/text2img/';
 
-
 export default async function handler(req, res) {
     try {
         req.body = Object.entries(req.body).reduce(

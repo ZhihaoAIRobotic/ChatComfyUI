@@ -5,9 +5,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 // import ReactPlayer from "react-player";
 import Footer from "components/footer";
-import Link from 'next/link';
-import Image from 'next/image'
-import { useRouter } from 'next/router';
+
 
 import prepareImageFileForUpload from "lib/prepare-image-file-for-upload";
 import { getRandomSeed } from "lib/seeds";
@@ -55,6 +53,29 @@ export default function Home() {
     const myEvents = [...events, { prompt }];
     setEvents(myEvents);
 
+    const body = {
+      prompt,
+      negative_prompt: 'bad quality',
+    };
+
+    const response = await fetch("/api/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+    let prediction = await response.json();
+
+    // just for bookkeeping
+    setPredictions(predictions.concat([prediction]));
+    setEvents(
+      myEvents.concat([
+        { image: prediction.output?.[prediction.output.length - 1] },
+      ])
+    );
+
+    setIsProcessing(false);
   };
 
   const startOver = async (e) => {
@@ -63,35 +84,6 @@ export default function Home() {
     setError(null);
     setIsProcessing(false);
     setInitialPrompt(seed.prompt);
-  };
-
-  //  导航到子页面
-  const router = useRouter();
-  const handleItemClick = (itemId) => {
-    router.push(`/agents/${itemId}`);
-  };
-
-  // agents列表
-  const AgentLists = [
-   { id: 1, router: 'text2img', title: 'Text2img Agent', desc: 'Your AI image generation Agent. It creates an image from scratch from a text description.', image: '/photo.svg' },
-   { id: 2, router: 'img2img', title: 'Img2img Agent', desc: 'Your AI image translation Agent. It changes an image style according to a text description.', image: '/img.svg' },
-   { id: 3, router: 'text2video', title: 'Text2video Agent', desc: 'Your AI video generation Agent. It creates an video clip from scratch from a text description.', image: '/video.svg'},
-  ];
-
-  const TitleStyle = {
-    textAlign: 'center',
-    background: 'linear-gradient(to right, #30cfd0, #330867)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    fontWeight: 'bold', color: 'red', fontSize: '32px',
-  };
-  
-  const DescStyle = {
-    textAlign: 'center',
-    background: 'black',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    color: 'black', fontSize: '22px',
   };
 
   return (
@@ -104,6 +96,7 @@ export default function Home() {
         <meta property="og:image" content="https://paintbytext.chat/opengraph.jpg" />
       </Head>
       
+      
       <main className="container max-w-[700px] mx-auto p-5">
         <hgroup>
           <h1 className="text-center text-5xl font-bold m-6">{appName}</h1>
@@ -112,27 +105,34 @@ export default function Home() {
           </p>
         </hgroup>
 
-    <div>
-      <ul>
-        {AgentLists.map((AgentLists) => (
-          <li key={AgentLists.id} onClick={() => handleItemClick(AgentLists.router)} style={{ cursor: 'pointer' }}>
-          <div style={{ borderRadius: '20px', backgroundColor: '#F4F5F7', width: '650px', height: '280px', 
-          boxShadow: '10px 10px 10px 10px rgba(0, 0, 0.15, 0.15)', marginBottom: '40px', display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-          <a>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Image src={AgentLists.image} width={120} height={240}/>
-          </div>
-            <span> <div style={TitleStyle}> {AgentLists.title}
-            </div></span>
-            <span> <div style={DescStyle}> {AgentLists.desc}          
-            </div></span>
-          </a>
-          </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <Messages
+          events={events}
+          isProcessing={isProcessing}
+          onUndo={(index) => {
+            setInitialPrompt(events[index - 1].prompt);
+            setEvents(
+              events.slice(0, index - 1).concat(events.slice(index + 1))
+            );
+          }}
+        />
 
+        <PromptForm
+          // src={'https://s31.aconvert.com/convert/p3r68-cdx67/mh9iw-s0h0v.mp4'}
+          initialPrompt={initialPrompt}
+          isFirstPrompt={events.length === 1}
+          onSubmit={handleSubmit}
+          disabled={isProcessing}
+        />
+
+        <div className="mx-auto w-full">
+          {error && <p className="bold text-red-500 pb-5">{error}</p>}
+        </div>
+
+        <Footer
+          events={events}
+          startOver={startOver}
+          handleImageDropped={handleImageDropped}
+        />
       </main>
     </div>
   );

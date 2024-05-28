@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ArrowLeft as ArrowLeftIcon } from "lucide-react";
 
-import appName from "./index";
+import appName from "./agents/img2img/index";
 
 export default function About() {
   return (
